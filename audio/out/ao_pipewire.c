@@ -271,14 +271,18 @@ static void on_state_changed(void *userdata, enum pw_stream_state old, enum pw_s
     }
 }
 
+// PipeWire stores volume as a linear amplitude factor, while PulseAudio tools
+// (pavucontrol, wpctl, ...) present it on a cubic perceptual scale. Convert
+// between the two so mpv's ao-volume percentage matches what those tools show.
 static float spa_volume_to_mp_volume(float vol)
 {
-        return vol * 100;
+        return cbrtf(vol) * 100;
 }
 
 static float mp_volume_to_spa_volume(float vol)
 {
-        return vol / 100;
+        vol /= 100;
+        return vol * vol * vol;
 }
 
 static float volume_avg(float* vols, uint32_t n)
