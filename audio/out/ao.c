@@ -390,6 +390,12 @@ void ao_hotplug_event(struct ao *ao)
     ao_add_events(ao, AO_EVENT_HOTPLUG);
 }
 
+// Notify the player that the AO's volume/mute changed externally. Fully thread-safe.
+void ao_volume_event(struct ao *ao)
+{
+    ao_add_events(ao, AO_EVENT_VOLUME);
+}
+
 bool ao_chmap_sel_adjust(struct ao *ao, const struct mp_chmap_sel *s,
                          struct mp_chmap *map)
 {

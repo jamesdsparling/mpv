@@ -294,6 +294,8 @@ static void on_control_info(void *userdata, uint32_t id,
 {
     struct ao *ao = userdata;
     struct priv *p = ao->priv;
+    float old_volume = p->volume;
+    bool old_muted = p->muted;
 
     switch (id) {
         case SPA_PROP_mute:
@@ -313,6 +315,9 @@ static void on_control_info(void *userdata, uint32_t id,
                 p->volume = control->values[0];
             break;
     }
+
+    if (p->volume != old_volume || p->muted != old_muted)
+        ao_volume_event(ao);
 }
 
 static const struct pw_stream_events stream_events = {

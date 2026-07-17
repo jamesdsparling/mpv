@@ -43,6 +43,7 @@ enum aocontrol {
 enum {
     AO_EVENT_RELOAD = 1,
     AO_EVENT_HOTPLUG = 2,
+    AO_EVENT_VOLUME = 4,
 };
 
 enum {
@@ -106,6 +107,7 @@ struct mp_async_queue *ao_get_queue(struct ao *ao);
 int ao_query_and_reset_events(struct ao *ao, int events);
 void ao_request_reload(struct ao *ao);
 void ao_hotplug_event(struct ao *ao);
+void ao_volume_event(struct ao *ao);
 
 struct ao_hotplug;
 struct ao_hotplug *ao_hotplug_create(struct mpv_global *global,
